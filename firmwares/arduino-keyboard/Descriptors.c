@@ -43,7 +43,7 @@
  *  the device will send, and what it may be sent back from the host. Refer to the HID specification for
  *  more details on HID report descriptors.
  */
-const USB_Descriptor_HIDReport_Datatype_t PROGMEM KeyboardReport[] =
+const USB_Descriptor_HIDReport_Datatype_t  KeyboardReport[] =
 {
 	0x05, 0x01,          /* Usage Page (Generic Desktop)                    */
 	0x09, 0x06,          /* Usage (Keyboard)                                */
@@ -84,7 +84,7 @@ const USB_Descriptor_HIDReport_Datatype_t PROGMEM KeyboardReport[] =
  *  number of device configurations. The descriptor is read out by the USB host when the enumeration
  *  process begins.
  */
-const USB_Descriptor_Device_t PROGMEM DeviceDescriptor =
+const USB_Descriptor_Device_t  DeviceDescriptor =
 {
 	.Header                 = {.Size = sizeof(USB_Descriptor_Device_t), .Type = DTYPE_Device},
 		
@@ -95,8 +95,18 @@ const USB_Descriptor_Device_t PROGMEM DeviceDescriptor =
 				
 	.Endpoint0Size          = FIXED_CONTROL_ENDPOINT_SIZE,
 		
-	.VendorID               = 0x03EB,
-	.ProductID              = 0x2042,
+        // Atmel Keyboard Demo
+        /*.VendorID               = 0x1953,*/
+        /*.ProductID              = 0x0202,*/
+
+        // Logitech Keyboard.
+        /*.VendorID               = 0x046d,*/
+        /*.ProductID              = 0x0203,*/
+
+        // Ironkey
+        .VendorID               = 0x03EB,
+        .ProductID              = 0x2042,
+
 	.ReleaseNumber          = 0x0000,
 		
 	.ManufacturerStrIndex   = 0x01,
@@ -111,7 +121,7 @@ const USB_Descriptor_Device_t PROGMEM DeviceDescriptor =
  *  and endpoints. The descriptor is read out by the USB host during the enumeration process when selecting
  *  a configuration so that the host may correctly communicate with the USB device.
  */
-const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
+const USB_Descriptor_Configuration_t  ConfigurationDescriptor =
 {
 	.Config = 
 		{
@@ -170,7 +180,7 @@ const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor =
  *  the string descriptor with index 0 (the first index). It is actually an array of 16-bit integers, which indicate
  *  via the language ID table available at USB.org what languages the device supports for its string descriptors.
  */
-const USB_Descriptor_String_t PROGMEM LanguageString =
+const USB_Descriptor_String_t  LanguageString =
 {
 	.Header                 = {.Size = USB_STRING_LEN(1), .Type = DTYPE_String},
 		
@@ -181,22 +191,24 @@ const USB_Descriptor_String_t PROGMEM LanguageString =
  *  form, and is read out upon request by the host when the appropriate string ID is requested, listed in the Device
  *  Descriptor.
  */
-const USB_Descriptor_String_t PROGMEM ManufacturerString =
+const USB_Descriptor_String_t  ManufacturerString =
 {
-	.Header                 = {.Size = USB_STRING_LEN(7), .Type = DTYPE_String},
+	.Header                 = {.Size = USB_STRING_LEN(12), .Type = DTYPE_String},
 		
-	.UnicodeString          = L"Arduino"
+	/*.UnicodeString          = L"Logitech, Inc."*/
+        .UnicodeString          = L"Ironkey Inc."
 };
 
 /** Product descriptor string. This is a Unicode string containing the product's details in human readable form,
  *  and is read out upon request by the host when the appropriate string ID is requested, listed in the Device
  *  Descriptor.
  */
-const USB_Descriptor_String_t PROGMEM ProductString =
+const USB_Descriptor_String_t  ProductString =
 {
-	.Header                 = {.Size = USB_STRING_LEN(8), .Type = DTYPE_String},
+	.Header                 = {.Size = USB_STRING_LEN(15), .Type = DTYPE_String},
 		
-	.UnicodeString          = L"Keyboard"
+	/*.UnicodeString          = L"M2452 Keyboard"*/
+        .UnicodeString          = L"S200 2GB Rev. 1"
 };
 
 /** This function is called by the library when in device mode, and must be overridden (see library "USB Descriptors"
@@ -228,15 +240,15 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue, const uint8_t wIndex,
 			{
 				case 0x00: 
 					Address = (void*)&LanguageString;
-					Size    = pgm_read_byte(&LanguageString.Header.Size);
+					Size    = LanguageString.Header.Size;
 					break;
 				case 0x01: 
 					Address = (void*)&ManufacturerString;
-					Size    = pgm_read_byte(&ManufacturerString.Header.Size);
+					Size    = ManufacturerString.Header.Size;
 					break;
 				case 0x02: 
 					Address = (void*)&ProductString;
-					Size    = pgm_read_byte(&ProductString.Header.Size);
+					Size    = ProductString.Header.Size;
 					break;
 			}
 			

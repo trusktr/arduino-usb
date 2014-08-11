@@ -62,12 +62,13 @@
 # 	Since the ATMEGA8U2 part is not directly supported by the current
 #	versions of either avrdude or dfu-programmer, we specify a dummy
 #	part; AT90USB82 which is close enough in memory size and organization
-MCU = atmega8u2
-MCU_AVRDUDE = at90usb82
-MCU_DFU = at90usb82
-#MCU = atmega16u2
-#MCU_AVRDUDE = atmega16u2
-#MCU_DFU = atmega16u2
+#MCU = atmega8u2
+#MCU_AVRDUDE = at90usb82
+#MCU_DFU = at90usb82
+MCU = atmega16u2
+MCU_AVRDUDE = atmega16u2
+MCU_DFU = atmega16u2
+ARCH = AVR8
 
 # Specify the Arduino model using the assigned PID.  This is used by Descriptors.c
 #   to set PID and product descriptor string
@@ -133,7 +134,7 @@ LUFA_PATH = ../..
 LUFA_OPTS  = -D USB_DEVICE_ONLY
 LUFA_OPTS += -D FIXED_CONTROL_ENDPOINT_SIZE=8
 LUFA_OPTS += -D FIXED_NUM_CONFIGURATIONS=1
-LUFA_OPTS += -D USE_FLASH_DESCRIPTORS
+LUFA_OPTS += -D USE_RAM_DESCRIPTORS
 LUFA_OPTS += -D DEVICE_STATE_AS_GPIOR=0
 LUFA_OPTS += -D USE_STATIC_OPTIONS="(USB_DEVICE_OPT_FULLSPEED | USB_OPT_REG_ENABLED | USB_OPT_AUTO_PLL)"
 LUFA_OPTS += -D NO_DEVICE_SELF_POWER
